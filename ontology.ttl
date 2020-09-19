@@ -1,0 +1,276 @@
+@prefix : <https://w3id.org/citationgraph/ontology#> .
+@prefix oa: <http://www.w3c.org/ns/oa#> .
+@prefix c4o: <http://purl.org/spar/c4o/> .
+@prefix cro: <http://purl.obolibrary.org/obo/CRO_> .
+@prefix oco: <https://w3c.org/oc/ontology/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix biro: <http:..purl.org/spar/biro/> .
+@prefix cito: <http://purl.org/spar/cito/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix frbr: <http:..purl.org/vocab/frbr/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@base <https://w3id.org/citationgraph/ontology#> .
+
+<https://w3id.org/citationgraph/ontology#> rdf:type owl:Ontology ;
+                                            rdfs:comment "An ontology representing the extension of the citation graph as described in the Ph.D. dissertation Using Data in Research: Methods for Accessing, Citing and Rewarding Scientific Databases"@en .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://purl.org/spar/c4o/denotes
+c4o:denotes rdf:type owl:ObjectProperty ;
+            rdfs:domain c4o:inTextReferencePointer ;
+            rdfs:range biro:BibliographicReference ;
+            rdfs:comment "Connects one in text reference pointer to its corresponding reference in the Reference List (or corrispective, given the CU)."@en ;
+            rdfs:label "Denotes"@en .
+
+
+###  http://purl.org/spar/cito/hasCitedEntity
+cito:hasCitedEntity rdf:type owl:ObjectProperty ;
+                    rdfs:domain cito:Citation ;
+                    rdfs:range :CitableUnit ;
+                    rdfs:comment "Connects one istance of a Citation to the CU being cited."@en ;
+                    rdfs:label "Has Cited Entity"@en .
+
+
+###  http://purl.org/spar/cito/hasCitingEntity
+cito:hasCitingEntity rdf:type owl:ObjectProperty ;
+                     rdfs:domain cito:Citation ;
+                     rdfs:range :CitableUnit ;
+                     rdfs:comment "This property connects one citation action to the CU that is citing."@en ;
+                     rdfs:label "Has Citing Entity"@en .
+
+
+###  http://xmlns.com/foaf/0.1/maker
+foaf:maker rdf:type owl:ObjectProperty ;
+           rdfs:domain <http://purl.obolibrary.org/obo/CRO_0000000> ;
+           rdfs:range :CitableUnit ;
+           rdfs:comment "Action of one agent of producing a CU, whatever its role and whatever the CU."@en ;
+           rdfs:label "maker"@en .
+
+
+###  https://w3c.org/oc/ontology/hasAnnotation
+oco:hasAnnotation rdf:type owl:ObjectProperty ;
+                  rdfs:domain biro:BibliographicReference ;
+                  rdfs:range oa:Annotation ;
+                  rdfs:comment "Connects a reference to one of (possibly many) reference annotations present in one CU that is using it."@en ;
+                  rdfs:label "Has Annotation"@en .
+
+
+###  https://w3id.org/citationgraph/ontology#containedEntity
+:containedEntity rdf:type owl:ObjectProperty ;
+                 rdfs:domain :CitableUnit ;
+                 rdfs:range :CitableUnit ;
+                 rdfs:comment "Connects the action of being part of something to the entity being contained in another one."@en ;
+                 rdfs:label "Contained Entity"@en .
+
+
+###  https://w3id.org/citationgraph/ontology#containingEntity
+:containingEntity rdf:type owl:ObjectProperty ;
+                  rdfs:domain :CitableUnit ;
+                  rdfs:range :CitableUnit ;
+                  rdfs:comment "Connects the action of being contained to the CU that is containing."@en ;
+                  rdfs:label "Containing Entity"@en .
+
+
+###  https://w3id.org/citationgraph/ontology#hasReferenceType
+:hasReferenceType rdf:type owl:ObjectProperty ;
+                  rdfs:domain biro:BibliographicReference ;
+                  rdfs:range :ReferenceType ;
+                  rdfs:comment "Connects one reference to its type. A reference may be from one paper to another paper, for example, or from a paper to data, or from data to data, etc."@en ;
+                  rdfs:label "Has Reference Type"@en .
+
+
+###  https://w3id.org/citationgraph/ontology#isSubsumedBy
+:isSubsumedBy rdf:type owl:ObjectProperty ;
+              rdfs:domain :Subsumption ;
+              rdfs:range :CitableUnit ;
+              rdfs:comment "Connects one subsumption action to the CU that is being subsumed."@en ;
+              rdfs:label "is subsumed by"@en .
+
+
+###  https://w3id.org/citationgraph/ontology#subsumes
+:subsumes rdf:type owl:ObjectProperty ;
+          rdfs:domain :Subsumption ;
+          rdfs:range :CitableUnit ;
+          rdfs:comment "Connects one action of subsumption to the CU that is subsuming another one."@en ;
+          rdfs:label "Subsumes"@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://purl.org/spar/c4o/hasContent
+c4o:hasContent rdf:type owl:DatatypeProperty ;
+               rdfs:domain :ReferencesAndAnnotations ;
+               rdfs:range rdfs:Literal ;
+               rdfs:comment "One object, like a reference or a reference annotation, may be composed by some literl values, like the text of the reference, or the query of the reference annotation."@en ;
+               rdfs:label "Has Content"@en .
+
+
+###  https://w3id.org/citationgraph/ontology#endingTime
+:endingTime rdf:type owl:DatatypeProperty ;
+            rdfs:domain cito:Citation ;
+            rdfs:range xsd:dateTime ;
+            rdfs:comment "The time when a citation stops to be valid, e.g. because a new version of the cited CU is being released."@en .
+
+
+###  https://w3id.org/citationgraph/ontology#isValid
+:isValid rdf:type owl:DatatypeProperty ;
+         rdfs:domain cito:Citation ;
+         rdfs:range xsd:boolean ;
+         rdfs:comment "Given a citation, representing the combination of reference and a reference annotation from a version of a paper to a version of another paper, tells if that citation is considered valid. This information is redundant, since it is possible to know if a citation is valid or not by checking out the presence of an ending time triple. We also vanted to allow the presence of this information to make queries easier."@en ;
+         rdfs:label "Is Valid"@en .
+
+
+###  https://w3id.org/citationgraph/ontology#startingTime
+:startingTime rdf:type owl:DatatypeProperty ;
+              rdfs:domain cito:Citation ;
+              rdfs:range xsd:dateTime ;
+              rdfs:comment "The moment in which a citation is introduced in the Citation Graph."@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http:..purl.org/spar/biro/BibliographicReference
+biro:BibliographicReference rdf:type owl:Class ;
+                            rdfs:subClassOf :ReferencesAndAnnotations ;
+                            rdfs:comment "A bibliographic reference is an entry in the Reference list in a paper or, more in general, a pointer in a Citable Unit to another Citable Unit."@en ;
+                            rdfs:label "Bibliographic Reference"@en ,
+                                       "Reference"@en .
+
+
+###  http://purl.obolibrary.org/obo/CRO_0000000
+<http://purl.obolibrary.org/obo/CRO_0000000> rdf:type owl:Class ;
+                                             rdfs:comment "A general class describing the role of a contributor to a CU. Whatever the role and whatever the CU."@en ;
+                                             rdfs:label "Contributor role"@en .
+
+
+###  http://purl.obolibrary.org/obo/CRO_0000001
+<http://purl.obolibrary.org/obo/CRO_0000001> rdf:type owl:Class ;
+                                             rdfs:subClassOf <http://purl.obolibrary.org/obo/CRO_0000000> ;
+                                             rdfs:comment "Author of a paper, whatever its role."@en ;
+                                             rdfs:label "Author role"@en .
+
+
+###  http://purl.obolibrary.org/obo/CRO_0000015
+<http://purl.obolibrary.org/obo/CRO_0000015> rdf:type owl:Class ;
+                                             rdfs:subClassOf <http://purl.obolibrary.org/obo/CRO_0000000> ;
+                                             rdfs:comment "Role of someone who contributed to data in some way."@en ;
+                                             rdfs:label "Data role"@en .
+
+
+###  http://purl.org/spar/c4o/inTextReferencePointer
+c4o:inTextReferencePointer rdf:type owl:Class ;
+                           rdfs:comment "An in-text/in-body reference pointer is a textual device, e.g. \"[1]\", that describes, in a paper or other type of CU, that some other CU is being cited in that point."@en ;
+                           rdfs:label "Reference Pointer"@en .
+
+
+###  http://purl.org/spar/cito/Citation
+cito:Citation rdf:type owl:Class ;
+              rdfs:comment "A citation is the combination of three elements: a reference, an in text reference pointer and a reference annotation. In this ontology one citation may stop to be valid once the cited CU changes version (it is subsumed by a new version). A new citation, corresponding to the same reference, is then created, pointing to another CU."@en ;
+              rdfs:label "Citation"@en .
+
+
+###  http://purl.org/spar/fabio/Expression
+fabio:Expression rdf:type owl:Class ;
+                 owl:equivalentClass :CitableUnit ;
+                 rdfs:label "Expression"@en .
+
+
+###  http://www.w3c.org/ns/oa#Annotation
+oa:Annotation rdf:type owl:Class ;
+              rdfs:subClassOf :ReferencesAndAnnotations ;
+              rdfs:label "Annotation"@en ,
+                         "Reference Annotation"@en ,
+                         "This is the class of the reference annotations, that is the information that accompany an in body reference pointer. These objects may contain different information, such as the query used to cite data in the case of data citation."@en .
+
+
+###  https://w3id.org/citationgraph/ontology#CitableUnit
+:CitableUnit rdf:type owl:Class ;
+             rdfs:comment "A CU is an element, result of research world, that can cite and be cited."@en ;
+             rdfs:label "Citable Unit"@en .
+
+
+###  https://w3id.org/citationgraph/ontology#ReferenceType
+:ReferenceType rdf:type owl:Class ;
+               rdfs:comment "The type of a reference from one CU to another. For example, we can have citations from papers to papers, or from papers to data, or from data to software, etc."@en ;
+               rdfs:label "Reference Type"@en .
+
+
+###  https://w3id.org/citationgraph/ontology#ReferencesAndAnnotations
+:ReferencesAndAnnotations rdf:type owl:Class ;
+                          rdfs:comment "This class groups the other classes that may be composed by some literal information, such as bibliographic information, queries, etc. These classes for now include References and References Annotations"@en ;
+                          rdfs:label "References and Annotations"@en .
+
+
+###  https://w3id.org/citationgraph/ontology#Subsumption
+:Subsumption rdf:type owl:Class ;
+             rdfs:comment "The act of one CU to subsume another CU."@en ;
+             rdfs:label "Subsumption"@en .
+
+
+###  https://w3id.org/citationgraph/ontology#isPartOf
+:isPartOf rdf:type owl:Class ;
+          rdfs:comment "Action of one CU of being part of another CU."@en ;
+          rdfs:label "Is Part Of"@en .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  https://w3id.org/citationgraph/ontology#DataToData
+:DataToData rdf:type owl:NamedIndividual ,
+                     :ReferenceType .
+
+
+###  https://w3id.org/citationgraph/ontology#DataToPaper
+:DataToPaper rdf:type owl:NamedIndividual ,
+                      :ReferenceType .
+
+
+###  https://w3id.org/citationgraph/ontology#DataToSoftware
+:DataToSoftware rdf:type owl:NamedIndividual ,
+                         :ReferenceType .
+
+
+###  https://w3id.org/citationgraph/ontology#PaperToData
+:PaperToData rdf:type owl:NamedIndividual ,
+                      :ReferenceType .
+
+
+###  https://w3id.org/citationgraph/ontology#PaperToPaper
+:PaperToPaper rdf:type owl:NamedIndividual ,
+                       :ReferenceType .
+
+
+###  https://w3id.org/citationgraph/ontology#PaperToSoftware
+:PaperToSoftware rdf:type owl:NamedIndividual ,
+                          :ReferenceType .
+
+
+###  https://w3id.org/citationgraph/ontology#SoftwareToData
+:SoftwareToData rdf:type owl:NamedIndividual ,
+                         :ReferenceType .
+
+
+###  https://w3id.org/citationgraph/ontology#SoftwareToPaper
+:SoftwareToPaper rdf:type owl:NamedIndividual ,
+                          :ReferenceType .
+
+
+###  https://w3id.org/citationgraph/ontology#SoftwareToSoftware
+:SoftwareToSoftware rdf:type owl:NamedIndividual ,
+                             :ReferenceType .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
